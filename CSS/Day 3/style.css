@@ -1,0 +1,75 @@
+/* /* .hero{
+    height: 100px;
+    width: 100px;
+    background-color: black;
+    color: white;
+} */
+ /* div{
+    background-color: black;
+    color: white;
+    height: 100px;
+    width: 100px;
+    border: 2px solid red;
+ }
+ p{
+    background-color: black;
+    color: white;
+    height: 100px;
+    width: 100px;
+    border: 2px solid red;
+ }
+ button{
+    background-color: black;
+    color: white;
+    height: 100px;
+    width: 100px;
+    border: 2px solid red;
+ }
+ span{
+    background-color: black;
+    color: white;
+    height: 100px;
+    width: 100px;
+    border: 2px solid red;
+ }
+ h1{
+    background-color: black;
+    color: white;
+    height: 100px;
+    width: 100px;
+    border: 2px solid red;
+ } */ 
+ *{
+   margin: 0;
+   padding: 0;
+ }
+  /* #box1{
+    background-color: black;
+    color: red;
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    border: 2px solid red;
+    margin: 10px;
+  }
+  #box2{
+    background-color: black;
+    color: red;
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    border: 2px solid red;
+    margin: 10px;
+  }
+   */
+   a{
+    background-color: black;
+    color: white;
+    border: 2px solid red;
+    margin: 5px;
+    padding:5px 
+   }
+   div{
+    background-color:orange;
+    height: 20px;
+   }

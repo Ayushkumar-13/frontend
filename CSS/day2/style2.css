@@ -1,0 +1,34 @@
+/* #box4{
+    color: white ;
+    background: #000;
+}
+.hero{
+    color: red;
+}
+div p{
+    color: red;
+}
+button{
+    background-color: blue;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+button:hover{
+    background-color: red;
+} */
+ a:link{
+    background-color: red;
+
+ }
+ a:hover{
+    background-color: yellow;
+ }
+ a:active{
+    background-color: blue;
+ }
+ a:visited{
+    background-color: green;
+ }
