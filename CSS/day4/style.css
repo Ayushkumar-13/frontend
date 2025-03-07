@@ -126,12 +126,13 @@ nav ul li a {
     display: flex;
     /* border: 2px solid green; */
     justify-content: space-between;
-    align-items:flex-end;
+    /* align-items:center; */
     flex-wrap: wrap;
     width: 80%;
     height: auto;
-    margin: 7%;;
-    flex-direction: row;
+    margin: 7%;
+    flex-direction:row;
+    
     
 
 }
