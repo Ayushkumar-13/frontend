@@ -6,10 +6,10 @@ function Square({ row, col }) {
     return (
         <div className='box w-full h-full gap-1 flex flex-col'>
            {squares.map((arr,i) => (
-                  <div className='flex gap-1 w-full h-full'>
+                  <div key={i} className='flex gap-1 w-full h-full'>
                    {arr.map((_,k) => (
            
-                       <Cell row={row} col={col}/>
+                       <Cell key={k} row={row*3+i} col={col*3+k}/>
                    ))}
            
                   </div> 
