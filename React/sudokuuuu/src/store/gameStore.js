@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { MODES } from "./sudokuUtils";
+import { MODES, sudoku } from "./sudokuUtils";
 const initialState = {
     isStart: false,
     isPause: false,
@@ -20,7 +20,18 @@ const initialState = {
 };
 const gameState = (set) => ({
     ...initialState,
- startGame: () => {},
+ startGame: (mode) => {
+    const data = sudoku(mode);
+    set({
+      ...initialState,
+      board: data.solvedBoard,
+      qBoard: data.unSolvedBoard,
+      isStart: true,
+      hints: MODES[mode].hints,
+      totalMistakes: MODES[mode].mistakes,
+      mode: MODES[mode],
+    });
+  },
  tryAgain: () => {},
  pauseGame: () => {},
  ContinueGame: () => {},
