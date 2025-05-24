@@ -1,8 +1,9 @@
 import React from 'react'
 import { useGame } from '../../store/gameStore'
+import Board from './Board'
 
 function Cell({ row, col }) {
-  const { qBoard, setSelectedCell, selectedCell } = useGame()
+  const { qBoard, setSelectedCell, selectedCell,board } = useGame()
 
   function handleClick() {
     setSelectedCell(row, col)
@@ -15,20 +16,24 @@ function Cell({ row, col }) {
   }
 
   return (
-    <div
-      onClick={handleClick}
-      className={`Cell select-none flex items-center justify-center cursor-pointer bg-slate-800 w-full h-full rounded-md 
-    ${isSelected().current ? "outline outline-1 outline-blue-500 bg-neutral-900" : "hover:outline hover:outline-1 hover:outline-white"}`}
+   <div
+  onClick={handleClick}
+  className={`Cell select-none flex items-center justify-center cursor-pointer w-full h-full rounded-md 
+    ${isSelected().current 
+      ? "bg-slate-950 outline outline-1 outline-blue-500" 
+      : "bg-slate-800 hover:outline hover:outline-1 hover:outline-white"}`}
+>
+  {qBoard[row][col].value !== 0 && (
+    <span
+      className={`text-2xl md:text-3xl ${
+        qBoard[row][col].default ? "text-gray-400" : qBoard[row][col].value == board[row][col] ? "text-blue-500" : "text-red-500"
+      }`}
     >
-      {qBoard[row][col].value !== 0 && (
-        <span
-          className={`text-2xl md:text-3xl ${qBoard[row][col].default ? "text-gray-400" : "text-blue-500"
-            }`}
-        >
-          {qBoard[row][col].value}
-        </span>
-      )}
-    </div>
+      {qBoard[row][col].value}
+    </span>
+  )}
+</div>
+
 
   )
 }

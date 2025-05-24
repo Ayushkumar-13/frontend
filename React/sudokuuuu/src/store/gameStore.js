@@ -36,14 +36,24 @@ const gameState = (set) => ({
  pauseGame: () => {},
  ContinueGame: () => {},
  togglePencilMode: () => {},
- changeQBoard: () => {},
+ changeQBoard: (num) => {
+    set(state => {
+        const row = state.selectedCell.row
+        const col = state.selectedCell.col
+        if (!row) return state
+        if (state.qBoard[row][col].default) return state
+        const qBoard = state.qBoard
+        qBoard[row][col] = {default: false, value:num, pencilMode:0}
+        return {...state, qBoard}
+    })
+ },
  resetQBoard: () => {},
  quitGame: () => {},
 
  setSelectedCell: (row,col) => {
  set({selectedCell: {row,col}})
  },
- 
+
  useHint: () => {},
  increaseTime: () => {},
  setState: () => {},

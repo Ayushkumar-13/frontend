@@ -1,8 +1,10 @@
 import React from 'react'
 import Square from './Square'
+import { useGame } from '../../store/gameStore'
 function Board() {
     const squares = Array(3).fill(Array(3).fill(null))
     const numbers = Array(9).fill(null)
+    const {changeQBoard} = useGame()
     const pause = false;
     const over = false
     return (
@@ -37,7 +39,7 @@ function Board() {
             <div className='flex justify-around select-none w-full'>
                 {
                     numbers.map((_, i) => (
-                        <span key={i} className="text-slate-200 bg-neutral-900 shadow-lg rounded-md p-2 md:px-3 my-5 text-2xl cursor-pointer outline-none hover:outline hover:outline-1 ">
+                        <span key={i} onClick={() => changeQBoard(i+1)} className="text-slate-200 bg-neutral-900 shadow-lg rounded-md p-2 md:px-3 my-5 text-2xl cursor-pointer outline-none hover:outline hover:outline-1 ">
                             {i + 1}
                         </span>
 
