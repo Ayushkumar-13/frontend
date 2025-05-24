@@ -3,9 +3,10 @@ import { useGame } from '../../store/gameStore'
 import Board from './Board'
 
 function Cell({ row, col }) {
-  const { qBoard, setSelectedCell, selectedCell,board } = useGame()
+  const { qBoard, setSelectedCell, selectedCell,board,isPause } = useGame()
 
   function handleClick() {
+ if  (isPause) return 
     setSelectedCell(row, col)
   }
 

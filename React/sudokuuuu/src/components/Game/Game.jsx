@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Edit, LogOut, Pause, PencilLine, Lightbulb } from 'lucide-react'
+import { Edit, LogOut, Pause, PencilLine, Lightbulb, Play } from 'lucide-react'
 import Board from '../Board/Board'
 import { useNavigate } from 'react-router-dom'
 import { useGame } from '../../store/gameStore'
@@ -7,36 +7,37 @@ import { useGame } from '../../store/gameStore'
 function Game() {
   const navigate = useNavigate()
   const timeRef = useRef()
-  const {isStart,increaseTime} = useGame()
+  const { isStart, increaseTime, isPause, pauseGame, time, isComplete } = useGame()
   useEffect(() => {
-      if (!isStart){
-        navigate('/')
-      }
-  timeRef.current = setInterval(() => {
-increaseTime()
-  },1000)
-  return () => clearInterval(timeRef.current)
-  },[])
+    if (!isStart) {
+      navigate('/')
+    }
+    timeRef.current = setInterval(() => {
+      if (!isPause && !isComplete)
+        increaseTime()
+    }, 1000)
+    return () => clearInterval(timeRef.current)
+  }, [isPause, time, isComplete])
 
   return (
     <div className='flex flex-col items-center justify-center'>
-       
-      <Board/>
+
+      <Board />
       <div className='flex items-center w-full justify-around'>
-         <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
-          <LogOut/>
+        <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+          <LogOut />
         </button>
-         <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
-          <Pause/>
+        <button onClick={() => pauseGame()} className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+          {!isPause ? <Pause /> : <Play />}
         </button>
-         <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+        <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
           Reset
         </button>
-         <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
-          <PencilLine/>
+        <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+          <PencilLine />
         </button>
-         <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
-           <Lightbulb/>
+        <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+          <Lightbulb />
         </button>
       </div>
     </div>

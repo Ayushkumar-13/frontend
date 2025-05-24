@@ -33,11 +33,15 @@ const gameState = (set) => ({
     });
   },
  tryAgain: () => {},
- pauseGame: () => {},
+ pauseGame: () => {
+  set(state => ({...state, isPause:!state.isPause}))
+ },
  ContinueGame: () => {},
  togglePencilMode: () => {},
  changeQBoard: (num) => {
     set(state => {
+     if (state.isPause) return state;
+     
         const row = state.selectedCell.row
         const col = state.selectedCell.col
         if (row == null || col == null) return state;
