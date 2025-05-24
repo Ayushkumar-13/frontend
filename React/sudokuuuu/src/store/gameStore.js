@@ -41,7 +41,7 @@ const gameState = (set) => ({
  changeQBoard: (num) => {
     set(state => {
      if (state.isPause) return state;
-     
+
         const row = state.selectedCell.row
         const col = state.selectedCell.col
         if (row == null || col == null) return state;
@@ -53,7 +53,9 @@ const gameState = (set) => ({
     })
  },
  resetQBoard: () => {},
- quitGame: () => {},
+quitGame: () => {
+    set({isStart: false})
+  },
 
  setSelectedCell: (row,col) => {
     const iRow = Math.floor(row/3) * 3

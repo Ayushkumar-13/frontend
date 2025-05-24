@@ -7,7 +7,7 @@ import { useGame } from '../../store/gameStore'
 function Game() {
   const navigate = useNavigate()
   const timeRef = useRef()
-  const { isStart, increaseTime, isPause, pauseGame, time, isComplete } = useGame()
+  const { isStart, increaseTime, isPause, pauseGame, time, isComplete, quitGame } = useGame()
   useEffect(() => {
     if (!isStart) {
       navigate('/')
@@ -17,14 +17,14 @@ function Game() {
         increaseTime()
     }, 1000)
     return () => clearInterval(timeRef.current)
-  }, [isPause, time, isComplete])
+  }, [isPause, time, isComplete,isStart])
 
   return (
     <div className='flex flex-col items-center justify-center'>
 
       <Board />
       <div className='flex items-center w-full justify-around'>
-        <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+        <button onClick={() => quitGame()} className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
           <LogOut />
         </button>
         <button onClick={() => pauseGame()} className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
