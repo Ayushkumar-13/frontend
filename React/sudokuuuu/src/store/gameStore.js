@@ -64,7 +64,9 @@ const gameState = (set) => ({
  },
 
  useHint: () => {},
- increaseTime: () => {},
+ increaseTime: () => {
+    set(state=> ({...state, time: state.time+1}))
+ },
  setState: () => {},
 })
 export const useGame = create(gameState)

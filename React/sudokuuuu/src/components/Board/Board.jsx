@@ -4,9 +4,18 @@ import { useGame } from '../../store/gameStore'
 function Board() {
     const squares = Array(3).fill(Array(3).fill(null))
     const numbers = Array(9).fill(null)
-    const {changeQBoard,mode} = useGame()
+    const {changeQBoard,mode,mistake,totalMistakes,time} = useGame()
     const pause = false;
     const over = false
+    function formatTime(seconds) {
+        seconds = Math.max(0,Math.floor(seconds))
+        const minutes = Math.floor(seconds/60)
+        const remainingSeconds = seconds % 60
+        const minutesFoormatted = String(minutes).padStart(2,"0")
+        const secondsFormatted = String(remainingSeconds).padStart(2,"0")
+        return `${minutesFoormatted} : ${secondsFormatted}`
+
+    }
     return (
         <div className='flex w-screen h-[50vh] md:w-[600px] md:h-[600px] p-2 flex-col gap-2 relative '>
             {
@@ -27,6 +36,8 @@ function Board() {
             }
              <div className='flex justify-around text-xl pt-5 w-full'>
                 <p>Mode: <span>{mode.name}</span></p>
+                <p>Mistakes:{" "} <span>{mistake}/{totalMistakes}</span></p>
+                <p>Time: <span>{formatTime(time)}</span></p>
              </div>
             {squares.map((arr, row) => (
                 <div key={row} className='flex gap-2 w-full h-full'>
