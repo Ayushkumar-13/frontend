@@ -80,4 +80,36 @@ export function genrateSuduko(board, randomArray) {
   }
   return true;
 }
-
+// function to remove cells 
+export function removeCells(board, no) {
+  for (let x = 0; x < no; x++) {
+    const row = generateRandom(1, 9) - 1;
+    const col = generateRandom(1, 9) - 1;
+    board[row][col] = 0;
+  }
+}
+// function to generate sudoku
+// random number is generated in the variable no_of_cell
+export function sudoku(mode) {
+  const no_of_cell = generateRandom(MODES[mode].value[0], MODES[mode].value[1]);
+  let solvedBoard = Array.from({ length: 9 }, () => Array(9).fill(0));
+  let randomArray = [];
+  while (1) {
+    if (randomArray.length == 9) break;
+    const num = generateRandom(1, 9);
+    if (!randomArray.includes(num)) randomArray.push(num);
+  }
+  genrateSuduko(solvedBoard, randomArray);
+  
+  let unSolvedBoard = solvedBoard.map(row => row.map(num => num));
+  removeCells(unSolvedBoard, no_of_cell);
+  unSolvedBoard = unSolvedBoard.map((row) => {
+    return row.map(num => {
+      if (!num == 0) {
+        return { value: num, default: true, pencilValue:0 };
+      }
+      return { value: 0, default: false, pencilValue:0 };
+    });
+  });
+  return { solvedBoard, unSolvedBoard };
+}
