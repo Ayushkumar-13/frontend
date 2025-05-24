@@ -39,7 +39,11 @@ const gameState = (set) => ({
  changeQBoard: () => {},
  resetQBoard: () => {},
  quitGame: () => {},
- setSelectedCell: () => {},
+
+ setSelectedCell: (row,col) => {
+ set({selectedCell: {row,col}})
+ },
+ 
  useHint: () => {},
  increaseTime: () => {},
  setState: () => {},
