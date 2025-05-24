@@ -4,7 +4,7 @@ import { useGame } from '../../store/gameStore'
 function Board() {
     const squares = Array(3).fill(Array(3).fill(null))
     const numbers = Array(9).fill(null)
-    const {changeQBoard} = useGame()
+    const {changeQBoard,mode} = useGame()
     const pause = false;
     const over = false
     return (
@@ -25,6 +25,9 @@ function Board() {
                     </div>
                 </div>
             }
+             <div className='flex justify-around text-xl pt-5 w-full'>
+                <p>Mode: <span>{mode.name}</span></p>
+             </div>
             {squares.map((arr, row) => (
                 <div key={row} className='flex gap-2 w-full h-full'>
                     {arr.map((_, col) => (

@@ -11,6 +11,12 @@ function Cell({ row, col }) {
 
   function isSelected() {
     const query = { current: false, other: false }
+    if (selectedCell.row == null || selectedCell.col == null) return query
+
+    for (let sq of selectedCell.squares){
+      if (sq[0] == row && sq[1] == col)
+        query.other = true
+    }
     if (selectedCell.row == row && selectedCell.col == col) query.current = true
     if (selectedCell.row == row || selectedCell.col == col) query.other = true
     if ( qBoard[row][col].value != 0 && qBoard[row][col].value == qBoard[selectedCell.row][selectedCell.col].value) query.other = true
