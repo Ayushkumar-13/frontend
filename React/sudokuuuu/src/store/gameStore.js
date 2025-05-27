@@ -86,7 +86,7 @@ const gameState = (set) => ({
     },
     resetQBoard: () => { },
     quitGame: () => {
-        set({ isStart: false })
+        set(initialState)
     },
 
     setSelectedCell: (row, col) => {

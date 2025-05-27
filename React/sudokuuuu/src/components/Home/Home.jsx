@@ -14,6 +14,7 @@ function Home() {
   }
   function handleContinue() {
     ContinueGame()
+    navigate('/game')
   }
   return (
     <>
