@@ -80,6 +80,13 @@ const gameState = (set) => ({
                     mistake++;
                 if (mistake >= state.totalMistakes)
                     isComplete = true
+                let win = true
+                qBoard.forEach((row,rIdx) => {
+                    row.forEach((item,cIdx) => {
+                        if (item.value != state.board[rIdx][cIdx]) win = false
+                    });                    
+                });
+                if (win) isComplete = true
             }
             return { ...state, qBoard, mistake, isComplete }
         })

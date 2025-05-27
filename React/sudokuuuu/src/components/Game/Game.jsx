@@ -18,7 +18,6 @@ function Game() {
     }, 1000)
     return () => clearInterval(timeRef.current)
   }, [isPause, time, isComplete,isStart])
-
   return (
     <div className='flex flex-col items-center justify-center'>
 
