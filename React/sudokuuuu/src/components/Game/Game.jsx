@@ -7,7 +7,7 @@ import { useGame } from '../../store/gameStore'
 function Game() {
   const navigate = useNavigate()
   const timeRef = useRef()
-  const { isStart, increaseTime, isPause, pauseGame, time, isComplete, quitGame, pencilMode, togglePencilMode } = useGame()
+  const { isStart, increaseTime, isPause, pauseGame, time, isComplete, quitGame, pencilMode, togglePencilMode, useHint } = useGame()
   useEffect(() => {
     if (!isStart) {
       navigate('/')
@@ -36,7 +36,7 @@ function Game() {
         <button onClick={() => togglePencilMode()} className={`option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90 ${pencilMode && "text-green-500"}` } >
           <PencilLine />
         </button>
-        <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+        <button onClick={() => useHint()} className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
           <Lightbulb />
         </button>
       </div>

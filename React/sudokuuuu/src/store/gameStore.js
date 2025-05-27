@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import {persist} from 'zustand/middleware'
 import { MODES, sudoku } from "./sudokuUtils";
 const initialState = {
     isStart: false,
@@ -6,7 +7,7 @@ const initialState = {
     isComplete: false,
     pencilMode: false,
     mistake: 0,
-    hints:0,
+    hints: 0,
     totalMistakes: 5,
     time: 0,
     mode: MODES["easy"],
@@ -20,72 +21,106 @@ const initialState = {
 };
 const gameState = (set) => ({
     ...initialState,
- startGame: (mode) => {
-    const data = sudoku(mode);
-    set({
-      ...initialState,
-      board: data.solvedBoard,
-      qBoard: data.unSolvedBoard,
-      isStart: true,
-      hints: MODES[mode].hints,
-      totalMistakes: MODES[mode].mistakes,
-      mode: MODES[mode],
-    });
-  },
- tryAgain: () => {},
- pauseGame: () => {
-  set(state => ({...state, isPause:!state.isPause}))
- },
- ContinueGame: () => {},
- togglePencilMode: () => {
-    set(state => ({...state, pencilMode: !state.pencilMode}))
- },
- changeQBoard: (num) => {
-    set(state => {
-     if (state.isPause) return state;
+    startGame: (mode) => {
+        const data = sudoku(mode);
+        set({
+            ...initialState,
+            board: data.solvedBoard,
+            qBoard: data.unSolvedBoard,
+            isStart: true,
+            hints: MODES[mode].hints,
+            totalMistakes: MODES[mode].mistakes,
+            mode: MODES[mode],
+        });
+    },
+    tryAgain: () => {
+        set(state => {
+            const qBoard = state.qBoard.map(row => row.map(item => {
+                if (item.default) return item
+                return { default: false, pencilValue: 0, value: 0 }
+            }))
+            return { ...state, qBoard, mistake: 0, hints: state.mode.hints, isComplete: false, isPause: false, time: 0 }
+        })
+    },
+    pauseGame: () => {
+        set(state => ({ ...state, isPause: !state.isPause }))
+    },
+    ContinueGame: () => {
 
-        const row = state.selectedCell.row
-        const col = state.selectedCell.col
-        if (row == null || col == null) return state;
+        set(state => {
+            if (localStorage.getItem('game')) {
 
-        if (state.qBoard[row][col].default) return state
-        const qBoard = state.qBoard
-        let mistake = state.mistake
-        let isComplete = state.isComplete
-        if (state.pencilMode){
-            qBoard[row][col] = {...qBoard[row][col], pencilValue:num}
+                const game = JSON.parse(localStorage.getItem('game'))
+                return game
+            }
+            return state
+        })
+    },
+    togglePencilMode: () => {
+        set(state => ({ ...state, pencilMode: !state.pencilMode }))
+    },
+    changeQBoard: (num) => {
+        set(state => {
+            if (state.isPause || state.isComplete) return state;
 
-        } else {
-            qBoard[row][col] = {...qBoard[row][col], value:num}
-            if (qBoard[row][col].value != state.board[row][col])
-                mistake++;
-            if (mistake >= state.totalMistakes)
-                isComplete = true
+            const row = state.selectedCell.row
+            const col = state.selectedCell.col
+            if (row == null || col == null) return state;
+
+            if (state.qBoard[row][col].default) return state
+            const qBoard = state.qBoard
+            let mistake = state.mistake
+            let isComplete = state.isComplete
+            if (state.pencilMode) {
+                qBoard[row][col] = { ...qBoard[row][col], pencilValue: num }
+
+            } else {
+                qBoard[row][col] = { ...qBoard[row][col], value: num }
+                if (qBoard[row][col].value != state.board[row][col])
+                    mistake++;
+                if (mistake >= state.totalMistakes)
+                    isComplete = true
+            }
+            return { ...state, qBoard, mistake, isComplete }
+        })
+    },
+    resetQBoard: () => { },
+    quitGame: () => {
+        set({ isStart: false })
+    },
+
+    setSelectedCell: (row, col) => {
+        const iRow = Math.floor(row / 3) * 3
+        const iCol = Math.floor(col / 3) * 3
+        const squares = []
+        for (let x = iRow; x < iRow + 3; x++) {
+            for (let y = iCol; y < iCol + 3; y++) {
+                squares.push([x, y])
+            }
         }
-        return {...state, qBoard, mistake, isComplete}
-    })
- },
- resetQBoard: () => {},
-quitGame: () => {
-    set({isStart: false})
-  },
+        set({ selectedCell: { row, col, squares } })
+    },
 
- setSelectedCell: (row,col) => {
-    const iRow = Math.floor(row/3) * 3
-    const iCol = Math.floor(col/3) * 3
-    const squares = []
-    for (let x=iRow; x<iRow+3; x++){
-        for (let y=iCol; y<iCol+3; y++){
-            squares.push([x,y])
-        }
-    }
- set({selectedCell: {row,col,squares}})
- },
+    useHint: () => {
+        set(state => {
+            const row = state.selectedCell.row
+            const col = state.selectedCell.col
+            if (state.hints <= 0) return state
+            if (!row) return state
+            if (state.isPause || state.isComplete) return state
+            let qBoard = state.qBoard
+            if (qBoard[row][col].default) return state
+            qBoard[row][col] = { ...qBoard[row][col], value: state.board[row][col] }
+            return { ...state, qBoard, hints: state.hints - 1 }
+        })
+    },
+    increaseTime: () => {
+        set((state) => {
+            localStorage.setItem('game', JSON.stringify({ ...state, time: state.time + 1 }))
+            return { ...state, time: state.time + 1 }
+        })
 
- useHint: () => {},
- increaseTime: () => {
-    set(state=> ({...state, time: state.time+1}))
- },
- setState: () => {},
+    },
+    setState: () => { },
 })
-export const useGame = create(gameState)
+export const useGame = create(persist(gameState, {name: "board"}))

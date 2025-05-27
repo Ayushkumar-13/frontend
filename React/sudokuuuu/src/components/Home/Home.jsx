@@ -3,7 +3,7 @@ import { useGame } from '../../store/gameStore'
 import { useNavigate } from 'react-router-dom'
 
 function Home() {
-  const {startGame} = useGame()
+  const {startGame,ContinueGame} = useGame()
   const navigate = useNavigate()
   const modeRef = useRef()
 
@@ -12,6 +12,9 @@ function Home() {
     localStorage.setItem("mode",modeRef.current.value)
     navigate('/game')
   }
+  function handleContinue() {
+    ContinueGame()
+  }
   return (
     <>
     <span id='heading' className='text-3xl font-bold'>Sudoku Game</span>
@@ -19,7 +22,7 @@ function Home() {
         <button onClick={handleStart} className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
           Start New
         </button>
-        <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+        <button onClick={handleContinue} className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
           Continue
         </button>
         <div className='flex items-center gap-5'>
