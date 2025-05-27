@@ -37,7 +37,9 @@ const gameState = (set) => ({
   set(state => ({...state, isPause:!state.isPause}))
  },
  ContinueGame: () => {},
- togglePencilMode: () => {},
+ togglePencilMode: () => {
+    set(state => ({...state, pencilMode: !state.pencilMode}))
+ },
  changeQBoard: (num) => {
     set(state => {
      if (state.isPause) return state;
