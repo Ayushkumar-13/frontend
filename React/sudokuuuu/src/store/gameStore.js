@@ -50,8 +50,19 @@ const gameState = (set) => ({
 
         if (state.qBoard[row][col].default) return state
         const qBoard = state.qBoard
-        qBoard[row][col] = {default: false, value:num, pencilMode:0}
-        return {...state, qBoard}
+        let mistake = state.mistake
+        let isComplete = state.isComplete
+        if (state.pencilMode){
+            qBoard[row][col] = {...qBoard[row][col], pencilValue:num}
+
+        } else {
+            qBoard[row][col] = {...qBoard[row][col], value:num}
+            if (qBoard[row][col].value != state.board[row][col])
+                mistake++;
+            if (mistake >= state.totalMistakes)
+                isComplete = true
+        }
+        return {...state, qBoard, mistake, isComplete}
     })
  },
  resetQBoard: () => {},

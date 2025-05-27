@@ -52,7 +52,7 @@ function Cell({ row, col }) {
     {qBoard[row][col].value}
   </span>
 )}
-      {qBoard[row][col].pencilValue !== 0 && (
+      {qBoard[row][col].pencilValue !== 0 && !qBoard[row][col].default &&  (
         <span
           className={`text-base md:text-2xl absolute -top-1 right-1 text-green-600`}
         >
