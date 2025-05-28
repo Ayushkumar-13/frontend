@@ -91,7 +91,19 @@ const gameState = (set) => ({
             return { ...state, qBoard, mistake, isComplete }
         })
     },
-    resetQBoard: () => { },
+    resetQBoard: () => {
+        set(state => {
+            if (state.isPause || state.isComplete) return state
+            let qBoard = state.qBoard
+            qBoard = qBoard.map(row => row.map(item => {
+                if (item.default) return item
+                else
+                return {...item, value : 0, pencilValue: 0}
+            }))
+          return {...state,qBoard}
+            
+        })
+     },
     quitGame: () => {
         set(initialState)
     },

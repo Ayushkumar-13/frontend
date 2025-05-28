@@ -7,7 +7,7 @@ import { useGame } from '../../store/gameStore'
 function Game() {
   const navigate = useNavigate()
   const timeRef = useRef()
-  const { isStart, increaseTime, isPause, pauseGame, time, isComplete, quitGame, pencilMode, togglePencilMode, useHint,hints } = useGame()
+  const { isStart, increaseTime, isPause, pauseGame, time, isComplete, quitGame, pencilMode, togglePencilMode, useHint,hints, resetQBoard} = useGame()
   useEffect(() => {
     if (!isStart) {
       navigate('/')
@@ -29,7 +29,7 @@ function Game() {
         <button onClick={() => pauseGame()} className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
           {!isPause ? <Pause /> : <Play />}
         </button>
-        <button className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
+        <button onClick={() => resetQBoard()} className="option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90" >
           Reset
         </button>
         <button onClick={() => togglePencilMode()} className={`option bg-slate-900 p-3 rounded-md hover:bg-slate-800  active:scale-90 ${pencilMode && "text-green-500"}` } >
